@@ -15,7 +15,8 @@ builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyCont
 builder.Services
     .AddGraphQLServer()
     .AddQueryType<Queries>()
-    .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
+    .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
+    .AddMutationType<Mutation>();
 
 var app = builder.Build();
 app.MapGraphQL();
