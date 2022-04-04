@@ -1,6 +1,12 @@
 namespace Eindopdracht.Repositories;
 
-public class ThemeRepository
+public interface IThemeRepository
+{
+    Task<Theme> AddTheme(Theme newTheme);
+    Task<List<Theme>> GetAllThemes();
+}
+
+public class ThemeRepository : IThemeRepository
 {
     private readonly IMongoContext _context;
 

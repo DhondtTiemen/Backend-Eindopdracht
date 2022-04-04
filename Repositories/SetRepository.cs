@@ -1,8 +1,15 @@
 namespace Eindopdracht.Repositories;
 
+public interface ISetRepository
+{
+    Task<Set> AddSet(Set newSet);
+    Task<List<Set>> GetAllSets();
+    Task<Set> GetSet(string id);
+}
+
 //GET SETS BY THEME
 
-public class SetRepository
+public class SetRepository : ISetRepository
 {
     private readonly IMongoContext _context;
 

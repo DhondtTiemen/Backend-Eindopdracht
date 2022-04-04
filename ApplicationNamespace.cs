@@ -9,5 +9,6 @@ global using MongoDB.Driver;
 
 global using Eindopdracht.Models;
 global using Eindopdracht.Repositories;
+global using Eindopdracht.Services;
 global using Eindopdracht.Configuration;
 global using Eindopdracht.Context;
