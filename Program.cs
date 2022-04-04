@@ -12,7 +12,13 @@ builder.Services.AddTransient<ILegoService, LegoService>();
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Set>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Theme>());
 
+builder.Services
+    .AddGraphQLServer()
+    .AddQueryType<Queries>()
+    .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true);
+
 var app = builder.Build();
+app.MapGraphQL();
 
 // app.MapGet("/", () => "Hello World!");
 

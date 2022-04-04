@@ -15,3 +15,4 @@ global using Eindopdracht.Services;
 global using Eindopdracht.Validators;
 global using Eindopdracht.Configuration;
 global using Eindopdracht.Context;
+global using Eindopdracht.GraphQL.Queries;
