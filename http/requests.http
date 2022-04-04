@@ -1,3 +1,42 @@
 GET http://localhost:3000/setup HTTP/1.1
 
 ###
+
+GET http://localhost:3000/sets HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/sets/21056 HTTP/1.1
+Content-Type: application/json
+
+###
+
+POST http://localhost:3000/sets HTTP/1.1
+Content-Type: application/json
+
+{
+    "setNumber": 21054,
+    "name": "The White House",
+    "minimalAge": "18",
+    "pieces": "1483",
+    "price": 99.99,
+    "Theme": {
+        "id": "624ad44f4d05661bea55fb13",
+        "name": "Architecture"
+    }
+}
+
+###
+
+GET http://localhost:3000/themes HTTP/1.1
+Content-Type: application/json
+
+###
+
+POST http://localhost:3000/themes HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Classic"
+}

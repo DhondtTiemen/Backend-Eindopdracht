@@ -6,7 +6,7 @@ public interface ILegoService
     Task<Theme> AddTheme(Theme newTheme);
     Task<List<Set>> GetAllSets();
     Task<List<Theme>> GetAllThemes();
-    Task<Set> GetSet(string id);
+    Task<Set> GetSet(int number);
     Task SetupDummyData();
 }
 
@@ -23,7 +23,7 @@ public class LegoService : ILegoService
 
     //SET
     public async Task<List<Set>> GetAllSets() => await _setRepository.GetAllSets();
-    public async Task<Set> GetSet(string id) => await _setRepository.GetSet(id);
+    public async Task<Set> GetSet(int number) => await _setRepository.GetSet(number);
     public async Task<Set> AddSet(Set newSet) => await _setRepository.AddSet(newSet);
 
     //THEME
@@ -67,7 +67,7 @@ public class LegoService : ILegoService
             var sets = new List<Set>()
             {
                 new Set(){
-                    SetId = "21056",
+                    SetNumber = 21056,
                     Name = "Taj Mahal",
                     MinimalAge = 18,
                     Pieces = 2022,
@@ -75,7 +75,7 @@ public class LegoService : ILegoService
                     Theme = themes[0]
                 },
                 new Set(){
-                    SetId = "21042",
+                    SetNumber = 21042,
                     Name = "Statue of Liberty",
                     MinimalAge = 16,
                     Pieces = 1685,

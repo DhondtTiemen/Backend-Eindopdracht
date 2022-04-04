@@ -4,7 +4,7 @@ public interface ISetRepository
 {
     Task<Set> AddSet(Set newSet);
     Task<List<Set>> GetAllSets();
-    Task<Set> GetSet(string id);
+    Task<Set> GetSet(int id);
 }
 
 //GET SETS BY THEME
@@ -25,9 +25,9 @@ public class SetRepository : ISetRepository
     }
 
     //GET SETS BY ID
-    public async Task<Set> GetSet(string id)
+    public async Task<Set> GetSet(int number)
     {
-        return await _context.SetCollection.Find<Set>(s => s.SetId == id).FirstOrDefaultAsync();
+        return await _context.SetCollection.Find<Set>(s => s.SetNumber == number).FirstOrDefaultAsync();
     }
 
 
