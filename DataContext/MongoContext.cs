@@ -1,6 +1,14 @@
 namespace Eindopdracht.Context;
 
-public class MongoContext
+public interface IMongoContext
+{
+    IMongoClient Client { get; }
+    IMongoDatabase Database { get; }
+    IMongoCollection<Set> SetCollection { get; }
+    IMongoCollection<Theme> ThemeCollection { get; }
+}
+
+public class MongoContext : IMongoContext
 {
     private readonly MongoClient _client;
     private readonly IMongoDatabase _database;
