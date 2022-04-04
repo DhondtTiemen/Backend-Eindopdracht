@@ -16,11 +16,11 @@ POST http://localhost:3000/sets HTTP/1.1
 Content-Type: application/json
 
 {
-    "setNumber": 21054,
-    "name": "The White House",
+    "setNumber": 21057,
+    "name": "Singapore",
     "minimalAge": "18",
-    "pieces": "1483",
-    "price": 99.99,
+    "pieces": "827",
+    "price": 59.99,
     "Theme": {
         "id": "624ad44f4d05661bea55fb13",
         "name": "Architecture"
@@ -38,5 +38,5 @@ POST http://localhost:3000/themes HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Classic"
+    "name": "Creator 3-in-1"
 }

@@ -1,10 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "Pkp93OtzJeanDiihYenAAd/Bgz1SPQTR/5lVLmRVU2pOZrNcbWu8bBN2uaM4NCSfgHwvIBa+Ks5cZ46k9c6UtQ==",
+  "dgSpecHash": "LiLsRNTPDaorQwyMkL5771//AvmRPBWK6I+GxOfHfhdxbL5H1vl/1Sczn0SZI/24RFtCe3RUPXs6Xe/xMmB9vw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Tiemen\\Desktop\\Backend\\Backend-Eindopdracht\\Backend-Eindopdracht.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tiemen\\.nuget\\packages\\dnsclient\\1.6.0\\dnsclient.1.6.0.nupkg.sha512",
+    "C:\\Users\\Tiemen\\.nuget\\packages\\fluentvalidation\\10.4.0\\fluentvalidation.10.4.0.nupkg.sha512",
+    "C:\\Users\\Tiemen\\.nuget\\packages\\fluentvalidation.aspnetcore\\10.4.0\\fluentvalidation.aspnetcore.10.4.0.nupkg.sha512",
+    "C:\\Users\\Tiemen\\.nuget\\packages\\fluentvalidation.dependencyinjectionextensions\\10.4.0\\fluentvalidation.dependencyinjectionextensions.10.4.0.nupkg.sha512",
+    "C:\\Users\\Tiemen\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\2.1.0\\microsoft.extensions.dependencyinjection.abstractions.2.1.0.nupkg.sha512",
     "C:\\Users\\Tiemen\\.nuget\\packages\\microsoft.netcore.platforms\\5.0.0\\microsoft.netcore.platforms.5.0.0.nupkg.sha512",
     "C:\\Users\\Tiemen\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\Tiemen\\.nuget\\packages\\mongodb.bson\\2.15.0\\mongodb.bson.2.15.0.nupkg.sha512",

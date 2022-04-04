@@ -9,6 +9,9 @@ builder.Services.AddTransient<ISetRepository, SetRepository>();
 builder.Services.AddTransient<IThemeRepository, ThemeRepository>();
 builder.Services.AddTransient<ILegoService, LegoService>();
 
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Set>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Theme>());
+
 var app = builder.Build();
 
 // app.MapGet("/", () => "Hello World!");
@@ -25,19 +28,33 @@ app.MapGet("/sets/{setNumber}", async (ILegoService legoService, int setNumber) 
     return Results.Ok(result);
 });
 
-app.MapPost("/sets", async (ILegoService legoService, Set set) =>
+app.MapPost("/sets", async (IValidator<Set> validator, ILegoService legoService, Set set) =>
 {
-    var result = await legoService.AddSet(set);
-    return Results.Created("", result);
+    var result = validator.Validate(set);
+    if (result.IsValid)
+    {
+        await legoService.AddSet(set);
+        return Results.Created("", set);
+    }
+
+    var errors = result.Errors.Select(e => new { errors = e.ErrorMessage });
+    return Results.BadRequest(errors);
 });
 
 //THEMES
 app.MapGet("/themes", (ILegoService LegoService) => LegoService.GetAllThemes());
 
-app.MapPost("/themes", async (ILegoService legoService, Theme theme) =>
+app.MapPost("/themes", async (IValidator<Theme> validator, ILegoService legoService, Theme theme) =>
 {
-    var result = await legoService.AddTheme(theme);
-    return Results.Created("", result);
+    var result = validator.Validate(theme);
+    if (result.IsValid)
+    {
+        await legoService.AddTheme(theme);
+        return Results.Created("", theme);
+    }
+
+    var errors = result.Errors.Select(e => new { errors = e.ErrorMessage });
+    return Results.BadRequest(errors);
 });
 
 
