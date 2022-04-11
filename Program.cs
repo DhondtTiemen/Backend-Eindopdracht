@@ -49,7 +49,7 @@ app.MapPost("/sets", async (IValidator<Set> validator, ILegoService legoService,
 });
 
 //THEMES
-app.MapGet("/themes", (ILegoService LegoService) => LegoService.GetAllThemes());
+app.MapGet("/themes", async (ILegoService LegoService) => await LegoService.GetAllThemes());
 
 app.MapPost("/themes", async (IValidator<Theme> validator, ILegoService legoService, Theme theme) =>
 {
@@ -65,4 +65,8 @@ app.MapPost("/themes", async (IValidator<Theme> validator, ILegoService legoServ
 });
 
 
-app.Run("http://localhost:3000");
+// app.Run("http://localhost:3000");
+
+//Testing
+app.Run();
+public partial class Program { }
