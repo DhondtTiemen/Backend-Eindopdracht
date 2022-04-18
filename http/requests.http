@@ -12,15 +12,30 @@ Content-Type: application/json
 
 ###
 
+GET http://localhost:3000/api/sets/theme/Architecture HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/sets/age/16 HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/sets/price/100 HTTP/1.1
+Content-Type: application/json
+
+###
+
 POST http://localhost:3000/sets HTTP/1.1
 Content-Type: application/json
 
 {
-    "setNumber": 21057,
-    "name": "Singapore",
-    "minimalAge": "18",
-    "pieces": "827",
-    "price": 59.99,
+    "setNumber": 21044,
+    "name": "Parijs",
+    "minimalAge": "12",
+    "pieces": "649",
+    "price": 49.99,
     "Theme": {
         "id": "624ad44f4d05661bea55fb13",
         "name": "Architecture"
@@ -29,7 +44,34 @@ Content-Type: application/json
 
 ###
 
+PUT http://localhost:3000/api/sets HTTP/1.1
+Content-Type: application/json
+
+{
+    "setNumber": 21044,
+    "name": "Paris",
+    "minimalAge": "12",
+    "pieces": "649",
+    "price": 49.99,
+    "Theme": {
+        "id": "624ad44f4d05661bea55fb13",
+        "name": "Architecture"
+    }
+}
+
+###
+
+DELETE http://localhost:3000/api/sets/21044 HTTP/1.1
+Content-Type: application/json
+
+###
+
 GET http://localhost:3000/themes HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/themes/624ad44f4d05661bea55fb14 HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -38,5 +80,21 @@ POST http://localhost:3000/themes HTTP/1.1
 Content-Type: application/json
 
 {
-    "name": "Creator 3-in-1"
+    "themeId": "624ad44f4d05661bea55fb14",
+    "name": "Batman"
 }
+
+###
+
+PUT http://localhost:3000/api/themes HTTP/1.1
+Content-Type: application/json
+
+{
+    "themeId": "624ad44f4d05661bea55fb14",
+    "name": "Batman"
+}
+
+###
+
+DELETE http://localhost:3000/api/themes/624ad44f4d05661bea55fb14 HTTP/1.1
+Content-Type: application/json

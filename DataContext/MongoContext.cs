@@ -6,6 +6,8 @@ public interface IMongoContext
     IMongoDatabase Database { get; }
     IMongoCollection<Set> SetCollection { get; }
     IMongoCollection<Theme> ThemeCollection { get; }
+    IMongoCollection<Customer> CustomerCollection { get; }
+    IMongoCollection<Order> OrderCollection { get; }
 }
 
 public class MongoContext : IMongoContext
@@ -44,6 +46,22 @@ public class MongoContext : IMongoContext
         get
         {
             return _database.GetCollection<Theme>(_settings.ThemeCollection);
+        }
+    }
+
+    public IMongoCollection<Customer> CustomerCollection
+    {
+        get
+        {
+            return _database.GetCollection<Customer>(_settings.CustomerCollection);
+        }
+    }
+
+    public IMongoCollection<Order> OrderCollection
+    {
+        get
+        {
+            return _database.GetCollection<Order>(_settings.OrderCollection);
         }
     }
 }
