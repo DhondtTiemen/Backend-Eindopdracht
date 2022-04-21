@@ -3,7 +3,7 @@ namespace Eindopdracht.Repositories;
 public interface IThemeRepository
 {
     Task<List<Theme>> GetAllThemes();
-    Task<Theme> GetTheme(string themeId);
+    Task<Theme> GetThemeById(string themeId);
     Task<Theme> AddTheme(Theme newTheme);
     Task<Theme> UpdateTheme(Theme theme);
     Task<Theme> DeleteTheme(string themeId);
@@ -25,7 +25,7 @@ public class ThemeRepository : IThemeRepository
     }
 
     //GET THEME
-    public async Task<Theme> GetTheme(string themeId)
+    public async Task<Theme> GetThemeById(string themeId)
     {
         return await _context.ThemeCollection.Find<Theme>(t => t.ThemeId == themeId).FirstOrDefaultAsync();
     }
@@ -45,7 +45,7 @@ public class ThemeRepository : IThemeRepository
             var filter = Builders<Theme>.Filter.Eq("ThemeId", theme.ThemeId);
             var update = Builders<Theme>.Update.Set("Name", theme.Name);
             var result = await _context.ThemeCollection.UpdateOneAsync(filter, update);
-            return await GetTheme(theme.ThemeId);
+            return await GetThemeById(theme.ThemeId);
         }
         catch (Exception ex)
         {
@@ -61,7 +61,7 @@ public class ThemeRepository : IThemeRepository
         {
             var filter = Builders<Theme>.Filter.Eq("ThemeId", themeId);
             var result = await _context.ThemeCollection.DeleteOneAsync(filter);
-            return await GetTheme(themeId);
+            return await GetThemeById(themeId);
         }
         catch (Exception ex)
         {

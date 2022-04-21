@@ -33,7 +33,7 @@ app.MapGet("/api/sets", (ILegoService legoService) => legoService.GetAllSets());
 
 app.MapGet("/api/sets/{setNumber}", async (ILegoService legoService, int setNumber) =>
 {
-    var result = await legoService.GetSet(setNumber);
+    var result = await legoService.GetSetByNumber(setNumber);
     return Results.Ok(result);
 });
 
@@ -92,7 +92,7 @@ app.MapGet("/api/themes", async (ILegoService LegoService) => await LegoService.
 
 app.MapGet("/api/themes/{themeId}", async (ILegoService legoService, string themeId) =>
 {
-    var result = await legoService.GetTheme(themeId);
+    var result = await legoService.GetThemeById(themeId);
     return Results.Ok(result);
 });
 

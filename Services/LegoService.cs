@@ -19,11 +19,11 @@ public interface ILegoService
     Task<List<Order>> GetOrderByCustomerEmail(string Email);
     Task<List<Order>> GetOrderByCustomerId(string CustomerId);
     Task<Order> GetOrderById(string OrderId);
-    Task<Set> GetSet(int number);
+    Task<Set> GetSetByNumber(int number);
     Task<List<Set>> GetSetsByAge(int age);
     Task<List<Set>> GetSetsByPrice(double price);
     Task<List<Set>> GetSetsByTheme(string theme);
-    Task<Theme> GetTheme(string themeId);
+    Task<Theme> GetThemeById(string themeId);
     Task SetupDummyData();
     Task<Customer> UpdateCustomer(Customer customer);
     Task<Order> UpdateOrder(Order order);
@@ -48,7 +48,7 @@ public class LegoService : ILegoService
 
     //SET
     public async Task<List<Set>> GetAllSets() => await _setRepository.GetAllSets();
-    public async Task<Set> GetSet(int number) => await _setRepository.GetSet(number);
+    public async Task<Set> GetSetByNumber(int number) => await _setRepository.GetSetByNumber(number);
     public async Task<List<Set>> GetSetsByTheme(string theme) => await _setRepository.GetSetsByTheme(theme);
     public async Task<List<Set>> GetSetsByAge(int age) => await _setRepository.GetSetsByAge(age);
     public async Task<List<Set>> GetSetsByPrice(double price) => await _setRepository.GetSetsByPrice(price);
@@ -58,7 +58,7 @@ public class LegoService : ILegoService
 
     //THEME
     public async Task<List<Theme>> GetAllThemes() => await _themeRepository.GetAllThemes();
-    public async Task<Theme> GetTheme(string themeId) => await _themeRepository.GetTheme(themeId);
+    public async Task<Theme> GetThemeById(string themeId) => await _themeRepository.GetThemeById(themeId);
     public async Task<Theme> AddTheme(Theme newTheme) => await _themeRepository.AddTheme(newTheme);
     public async Task<Theme> UpdateTheme(Theme theme) => await _themeRepository.UpdateTheme(theme);
     public async Task<Theme> DeleteTheme(string themeId) => await _themeRepository.DeleteTheme(themeId);

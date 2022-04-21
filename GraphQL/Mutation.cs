@@ -2,6 +2,7 @@ namespace Eindopdracht.GraphQL.Mutations;
 
 public class Mutation
 {
+    //SETS
     public async Task<AddSetPayload> AddSet([Service] ILegoService legoService, AddSetInput input)
     {
         var newSet = new Set()
@@ -18,14 +19,106 @@ public class Mutation
         return new AddSetPayload(created);
     }
 
+    public async Task<AddSetPayload> UpdateSet([Service] ILegoService legoService, AddSetInput input)
+    {
+        var updateSet = new Set()
+        {
+            SetNumber = input.number,
+            Name = input.name,
+            MinimalAge = input.minimalAge,
+            Pieces = input.pieces,
+            Price = input.price,
+            Theme = input.Theme,
+        };
+
+        var updated = await legoService.UpdateSet(updateSet);
+        return new AddSetPayload(updated);
+    }
+
+    public async Task<Set> DeleteSet([Service] ILegoService legoService, AddSetInput input)
+    {
+        return await legoService.DeleteSet(input.number);
+    }
+
+    //THEMES
     public async Task<AddThemePayload> AddTheme([Service] ILegoService legoService, AddThemeInput input)
     {
         var newTheme = new Theme()
         {
+            ThemeId = input.themeId,
             Name = input.name
         };
 
         var created = await legoService.AddTheme(newTheme);
         return new AddThemePayload(created);
+    }
+
+    public async Task<AddThemePayload> UpdateTheme([Service] ILegoService legoService, AddThemeInput input)
+    {
+        var updateTheme = new Theme()
+        {
+            ThemeId = input.themeId,
+            Name = input.name
+        };
+
+        var updated = await legoService.UpdateTheme(updateTheme);
+        return new AddThemePayload(updated);
+    }
+
+    public async Task<Theme> DeleteTheme([Service] ILegoService legoService, AddThemeInput input)
+    {
+        return await legoService.DeleteTheme(input.themeId);
+    }
+
+    //CUSTOMERS
+    public async Task<AddCustomerPayload> AddCustomer([Service] ILegoService legoService, AddCustomerInput input)
+    {
+        var newCustomer = new Customer()
+        {
+            Name = input.Name,
+            Email = input.Email
+        };
+
+        var created = await legoService.AddCustomer(newCustomer);
+        return new AddCustomerPayload(created);
+    }
+
+    public async Task<AddCustomerPayload> UpdateCustomer([Service] ILegoService legoService, AddCustomerInput input)
+    {
+        var updateCustomer = new Customer()
+        {
+            CustomerId = input.CustomerId,
+            Name = input.Name,
+            Email = input.Email
+        };
+
+        var updated = await legoService.UpdateCustomer(updateCustomer);
+        return new AddCustomerPayload(updated);
+    }
+
+    //ORDERS
+    public async Task<AddOrderPayload> AddOrder([Service] ILegoService legoService, AddOrderInput input)
+    {
+        var newOrder = new Order()
+        {
+            Customer = input.customer,
+            Set = input.set
+        };
+
+        var created = await legoService.AddOrder(newOrder);
+        return new AddOrderPayload(created);
+    }
+
+    public async Task<AddOrderPayload> UpdateOrder([Service] ILegoService legoService, AddOrderInput input)
+    {
+        var updateOrder = new Order()
+        {
+            OrderId = input.OrderId,
+            Customer = input.customer,
+            Set = input.set
+        };
+
+        var updated = await legoService.UpdateOrder(updateOrder);
+        return new AddOrderPayload(updated);
     }
 }

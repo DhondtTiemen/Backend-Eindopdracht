@@ -4,7 +4,7 @@ namespace Eindopdracht.Repositories;
 public interface ISetRepository
 {
     Task<List<Set>> GetAllSets();
-    Task<Set> GetSet(int number);
+    Task<Set> GetSetByNumber(int number);
     Task<List<Set>> GetSetsByTheme(string theme);
     Task<List<Set>> GetSetsByAge(int age);
     Task<List<Set>> GetSetsByPrice(double price);
@@ -28,8 +28,8 @@ public class SetRepository : ISetRepository
         return await _context.SetCollection.Find(_ => true).ToListAsync();
     }
 
-    //GET SETS BY ID
-    public async Task<Set> GetSet(int number)
+    //GET SETS BY NUMBER
+    public async Task<Set> GetSetByNumber(int number)
     {
         return await _context.SetCollection.Find<Set>(s => s.SetNumber == number).FirstOrDefaultAsync();
     }
@@ -67,7 +67,7 @@ public class SetRepository : ISetRepository
             var filter = Builders<Set>.Filter.Eq("SetNumber", set.SetNumber);
             var update = Builders<Set>.Update.Set("Name", set.Name);
             var result = await _context.SetCollection.UpdateOneAsync(filter, update);
-            return await GetSet(set.SetNumber);
+            return await GetSetByNumber(set.SetNumber);
         }
         catch (Exception ex)
         {
@@ -83,7 +83,7 @@ public class SetRepository : ISetRepository
         {
             var filter = Builders<Set>.Filter.Eq("SetNumber", setNumber);
             var result = await _context.SetCollection.DeleteOneAsync(filter);
-            return await GetSet(setNumber);
+            return await GetSetByNumber(setNumber);
         }
         catch (Exception ex)
         {
