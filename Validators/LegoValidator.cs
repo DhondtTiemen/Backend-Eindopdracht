@@ -22,6 +22,7 @@ public class CustomerValidator : AbstractValidator<Customer>
 {
     public CustomerValidator()
     {
+        RuleFor(c => c.Name).NotEmpty().WithMessage("Name is required for a customer!!!");
         RuleFor(c => c.Email).NotEmpty().WithMessage("Email is required for a customer!!!");
     }
 }

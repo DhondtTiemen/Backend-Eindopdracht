@@ -4,8 +4,8 @@ public interface IOrderRepository
 {
     Task<List<Order>> GetAllOrders();
     Task<Order> GetOrderById(string OrderId);
-    Task<Order> GetOrderByCustomerId(string CustomerId);
-    Task<Order> GetOrderByCustomerEmail(string Email);
+    Task<List<Order>> GetOrderByCustomerId(string CustomerId);
+    Task<List<Order>> GetOrderByCustomerEmail(string Email);
     Task<Order> AddOrder(Order newOrder);
     Task<Order> UpdateOrder(Order order);
     Task<Order> DeleteOrder(string OrderId);
@@ -32,15 +32,15 @@ public class OrderRepository : IOrderRepository
     }
 
     //GET ORDERS BY CUSTOMER ID
-    public async Task<Order> GetOrderByCustomerId(string CustomerId)
+    public async Task<List<Order>> GetOrderByCustomerId(string CustomerId)
     {
-        return await _context.OrderCollection.Find<Order>(o => o.Customer.CustomerId == CustomerId).FirstOrDefaultAsync();
+        return await _context.OrderCollection.Find<Order>(o => o.Customer.CustomerId == CustomerId).ToListAsync();
     }
 
     //GET ORDERS BY EMAIL
-    public async Task<Order> GetOrderByCustomerEmail(string Email)
+    public async Task<List<Order>> GetOrderByCustomerEmail(string Email)
     {
-        return await _context.OrderCollection.Find<Order>(o => o.Customer.Email == Email).FirstOrDefaultAsync();
+        return await _context.OrderCollection.Find<Order>(o => o.Customer.Email == Email).ToListAsync();
     }
 
     //ADD ORDER
@@ -56,7 +56,7 @@ public class OrderRepository : IOrderRepository
         try
         {
             var filter = Builders<Order>.Filter.Eq("OrderId", order.OrderId);
-            var update = Builders<Order>.Update.Set("Set", order.Set.SetNumber);
+            var update = Builders<Order>.Update.Set("Set", order.Set);
             var result = await _context.OrderCollection.UpdateOneAsync(filter, update);
             return await GetOrderById(order.OrderId);
         }

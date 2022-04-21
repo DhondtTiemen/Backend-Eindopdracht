@@ -1,13 +1,13 @@
-GET http://localhost:3000/setup HTTP/1.1
+GET http://localhost:3000/api/setup HTTP/1.1
 
 ###
 
-GET http://localhost:3000/sets HTTP/1.1
+GET http://localhost:3000/api/sets HTTP/1.1
 Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/sets/21056 HTTP/1.1
+GET http://localhost:3000/api/sets/21028 HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -27,7 +27,7 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/sets HTTP/1.1
+POST http://localhost:3000/api/sets HTTP/1.1
 Content-Type: application/json
 
 {
@@ -37,7 +37,7 @@ Content-Type: application/json
     "pieces": "649",
     "price": 49.99,
     "Theme": {
-        "id": "624ad44f4d05661bea55fb13",
+        "themeId": "624ad44f4d05661bea55fb13",
         "name": "Architecture"
     }
 }
@@ -54,19 +54,19 @@ Content-Type: application/json
     "pieces": "649",
     "price": 49.99,
     "Theme": {
-        "id": "624ad44f4d05661bea55fb13",
+        "themeId": "624ad44f4d05661bea55fb13",
         "name": "Architecture"
     }
 }
 
 ###
 
-DELETE http://localhost:3000/api/sets/21044 HTTP/1.1
+DELETE http://localhost:3000/api/sets/21028 HTTP/1.1
 Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/themes HTTP/1.1
+GET http://localhost:3000/api/themes HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -76,12 +76,12 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:3000/themes HTTP/1.1
+POST http://localhost:3000/api/themes HTTP/1.1
 Content-Type: application/json
 
 {
-    "themeId": "624ad44f4d05661bea55fb14",
-    "name": "Batman"
+    "themeId": "624ad55f4d05661bea55fb14",
+    "name": "D"
 }
 
 ###
@@ -90,11 +90,128 @@ PUT http://localhost:3000/api/themes HTTP/1.1
 Content-Type: application/json
 
 {
-    "themeId": "624ad44f4d05661bea55fb14",
-    "name": "Batman"
+    "themeId": "624ad55f4d05661bea55fb14",
+    "name": "DC"
 }
 
 ###
 
-DELETE http://localhost:3000/api/themes/624ad44f4d05661bea55fb14 HTTP/1.1
+DELETE http://localhost:3000/api/themes/624ad55f4d05661bea55fb14 HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/customers HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/customers/id/62610746036eb17170e200cc HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/customers/email/aline.naert@student.vives.be HTTP/1.1
+Content-Type: application/json
+
+###
+
+POST http://localhost:3000/api/customers HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Aline Naert",
+    "email": "aline.naert@student.vives.be"
+}
+
+###
+
+PUT http://localhost:3000/api/customers HTTP/1.1
+Content-Type: application/json
+
+{
+    "customerId": "62610f96900e81c2e35cf2a8",
+    "name": "Aline Naert",
+    "email": "aline.naert@student.vives.be"
+}
+
+###
+
+DELETE http://localhost:3000/api/customers/62610f96900e81c2e35cf2a8 HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/orders HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/orders/id/6261106d900e81c2e35cf2aa HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/orders/customerId/62610746036eb17170e200cc HTTP/1.1
+Content-Type: application/json
+
+###
+
+GET http://localhost:3000/api/orders/customerEmail/tiemen.dhondt2@student.howest.be HTTP/1.1
+Content-Type: application/json
+
+###
+
+POST http://localhost:3000/api/orders HTTP/1.1
+Content-Type: application/json
+
+{
+    "Customer": {
+        "customerId": "62610746036eb17170e200cc",
+        "name": "Tiemen Dhondt",
+        "email": "tiemen.dhondt2@student.howest.be"
+    },
+    "Set": {
+        "setId": "624ad4f51857ee6bc28a2b58",
+        "setNumber": 21042,
+        "name": "Statue of Liberty",
+        "minimalAge": 16,
+        "pieces": 1685,
+        "price": 99.99,
+        "theme": {
+            "themeId": "624ad44f4d05661bea55fb13",
+            "name": "Architecture"
+        }
+    }
+}
+
+###
+
+PUT http://localhost:3000/api/orders HTTP/1.1
+Content-Type: application/json
+
+{
+    "orderId": "626113416d4bfbb38bdcb6e5",
+    "Customer": {
+        "customerId": "62610746036eb17170e200cc",
+        "name": "Tiemen Dhondt",
+        "email": "tiemen.dhondt2@student.howest.be"
+    },
+    "Set": {
+        "setId": "624ad4f51857ee6bc28a2b58",
+        "setNumber": 21042,
+        "name": "Statue of Liberty",
+        "minimalAge": 16,
+        "pieces": 1685,
+        "price": 99.99,
+        "theme": {
+            "themeId": "624ad44f4d05661bea55fb13",
+            "name": "Architecture"
+        }
+    }
+}
+
+###
+
+DELETE http://localhost:3000/api/orders/62611026900e81c2e35cf2a9 HTTP/1.1
 Content-Type: application/json

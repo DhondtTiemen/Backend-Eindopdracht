@@ -16,8 +16,8 @@ public interface ILegoService
     Task<List<Theme>> GetAllThemes();
     Task<Customer> GetCustomerById(string CustomerId);
     Task<Customer> GetCustomerByMail(string Email);
-    Task<Order> GetOrderByCustomerEmail(string Email);
-    Task<Order> GetOrderByCustomerId(string CustomerId);
+    Task<List<Order>> GetOrderByCustomerEmail(string Email);
+    Task<List<Order>> GetOrderByCustomerId(string CustomerId);
     Task<Order> GetOrderById(string OrderId);
     Task<Set> GetSet(int number);
     Task<List<Set>> GetSetsByAge(int age);
@@ -74,8 +74,8 @@ public class LegoService : ILegoService
     //ORDER
     public async Task<List<Order>> GetAllOrders() => await _orderRepository.GetAllOrders();
     public async Task<Order> GetOrderById(string OrderId) => await _orderRepository.GetOrderById(OrderId);
-    public async Task<Order> GetOrderByCustomerId(string CustomerId) => await _orderRepository.GetOrderByCustomerId(CustomerId);
-    public async Task<Order> GetOrderByCustomerEmail(string Email) => await _orderRepository.GetOrderByCustomerEmail(Email);
+    public async Task<List<Order>> GetOrderByCustomerId(string CustomerId) => await _orderRepository.GetOrderByCustomerId(CustomerId);
+    public async Task<List<Order>> GetOrderByCustomerEmail(string Email) => await _orderRepository.GetOrderByCustomerEmail(Email);
     public async Task<Order> AddOrder(Order newOrder) => await _orderRepository.AddOrder(newOrder);
     public async Task<Order> UpdateOrder(Order order) => await _orderRepository.UpdateOrder(order);
     public async Task<Order> DeleteOrder(string OrderId) => await _orderRepository.DeleteOrder(OrderId);
