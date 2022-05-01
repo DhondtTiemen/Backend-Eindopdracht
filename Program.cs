@@ -341,5 +341,6 @@ app.MapDelete("/api/orders/{orderId}", async (ILegoService legoService, string o
 //Testing
 app.Run();
 
+//Mongo
 // app.Run("http://0.0.0.0:3000");
 public partial class Program { }
