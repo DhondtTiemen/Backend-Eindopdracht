@@ -11,6 +11,9 @@ builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<ILegoService, LegoService>();
 
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Set>());
 builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Theme>());
 
@@ -21,19 +24,40 @@ builder.Services
     .AddMutationType<Mutation>();
 
 var app = builder.Build();
+app.MapSwagger();
+app.UseSwaggerUI();
 app.MapGraphQL();
 
-// app.MapGet("/", () => "Hello World!");
+//Belangrijk:
+//Token toevoegen + validator
+//Firebase toevoegen
+
+//Alles nog eens controleren
+
+//Extra:
+//Eventueel mapper toevoegen labo02 (DTO)
+//Eventueel mailservice toevoegen
 
 //SETUP
+#region SETUP ENDPOINTS
 app.MapGet("/api/setup", (ILegoService legoService) => legoService.SetupDummyData());
+#endregion
 
 //SETS
-app.MapGet("/api/sets", (ILegoService legoService) => legoService.GetAllSets());
+#region SET ENDPOINTS
+app.MapGet("/api/sets", async (ILegoService legoService) =>
+{
+    var results = await legoService.GetAllSets();
+    return Results.Ok(results);
+});
 
-app.MapGet("/api/sets/{setNumber}", async (ILegoService legoService, int setNumber) =>
+app.MapGet("/api/sets/{setNumber}", async (ILegoService legoService, int setNumber, bool? includeTheme) =>
 {
     var result = await legoService.GetSetByNumber(setNumber);
+    if (includeTheme == null || includeTheme == false)
+    {
+        result.Theme = null;
+    }
     return Results.Ok(result);
 });
 
@@ -81,14 +105,26 @@ app.MapPut("/api/sets", async (IValidator<Set> validator, ILegoService legoServi
     return Results.BadRequest(errors);
 });
 
+// app.MapPut("/api/sets/stock", async (ILegoService legoService, int setNumber, int stock) =>
+// {
+//     await legoService.UpdateSetStock(setNumber, stock);
+//     return Results.Created("", setNumber);
+// });
+
 app.MapDelete("/api/sets/{setNumber}", async (ILegoService legoService, int setNumber) =>
 {
     await legoService.DeleteSet(setNumber);
     return Results.Ok("Deleted");
 });
+#endregion
 
 //THEMES
-app.MapGet("/api/themes", async (ILegoService LegoService) => await LegoService.GetAllThemes());
+#region THEME ENDPOINTS
+app.MapGet("/api/themes", async (ILegoService LegoService) =>
+{
+    var results = await LegoService.GetAllThemes();
+    return Results.Ok(results);
+});
 
 app.MapGet("/api/themes/{themeId}", async (ILegoService legoService, string themeId) =>
 {
@@ -127,21 +163,26 @@ app.MapDelete("/api/themes/{themeId}", async (ILegoService legoService, string t
     await legoService.DeleteTheme(themeId);
     return Results.Ok("Deleted");
 });
+#endregion
 
 //CUSTOMERS
+#region CUSTOMER ENDPOINTS
 app.MapGet("/api/customers", async (ILegoService legoService) =>
 {
-    return await legoService.GetAllCustomers();
+    var results = await legoService.GetAllCustomers();
+    return Results.Ok(results);
 });
 
 app.MapGet("/api/customers/id/{customerId}", async (ILegoService legoService, string customerId) =>
 {
-    return await legoService.GetCustomerById(customerId);
+    var result = await legoService.GetCustomerById(customerId);
+    return Results.Ok(result);
 });
 
 app.MapGet("/api/customers/email/{email}", async (ILegoService legoService, string email) =>
 {
-    return await legoService.GetCustomerByMail(email);
+    var result = await legoService.GetCustomerByMail(email);
+    return Results.Ok(result);
 });
 
 app.MapPost("/api/customers", async (IValidator<Customer> validator, ILegoService legoService, Customer customer) =>
@@ -175,27 +216,32 @@ app.MapDelete("/api/customers/{customerId}", async (ILegoService legoService, st
     await legoService.DeleteCustomer(customerId);
     return Results.Ok("Deleted");
 });
-
+#endregion
 
 //ORDERS
+#region ORDER ENDPOINTS
 app.MapGet("/api/orders", async (ILegoService legoService) =>
 {
-    return await legoService.GetAllOrders();
+    var results = await legoService.GetAllOrders();
+    return Results.Ok(results);
 });
 
 app.MapGet("/api/orders/id/{orderId}", async (ILegoService legoService, string orderId) =>
 {
-    return await legoService.GetOrderById(orderId);
+    var result = await legoService.GetOrderById(orderId);
+    return Results.Ok(result);
 });
 
 app.MapGet("/api/orders/customerId/{customerId}", async (ILegoService legoService, string customerId) =>
 {
-    return await legoService.GetOrderByCustomerId(customerId);
+    var result = await legoService.GetOrderByCustomerId(customerId);
+    return Results.Ok(result);
 });
 
 app.MapGet("/api/orders/customerEmail/{customerEmail}", async (ILegoService legoService, string customerEmail) =>
 {
-    return await legoService.GetOrderByCustomerEmail(customerEmail);
+    var result = await legoService.GetOrderByCustomerEmail(customerEmail);
+    return Results.Ok(result);
 });
 
 app.MapPost("/api/orders", async (IValidator<Order> validator, ILegoService legoService, Order order) =>
@@ -229,6 +275,7 @@ app.MapDelete("/api/orders/{orderId}", async (ILegoService legoService, string o
     await legoService.DeleteOrder(orderId);
     return Results.Ok("Deleted");
 });
+#endregion
 
 
 app.Run("http://localhost:3000");

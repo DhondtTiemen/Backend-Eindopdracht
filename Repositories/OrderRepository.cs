@@ -46,8 +46,16 @@ public class OrderRepository : IOrderRepository
     //ADD ORDER
     public async Task<Order> AddOrder(Order newOrder)
     {
-        await _context.OrderCollection.InsertOneAsync(newOrder);
-        return newOrder;
+        try
+        {
+            await _context.OrderCollection.InsertOneAsync(newOrder);
+            return newOrder;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 
     //UPDATE ORDER

@@ -7,4 +7,5 @@ public class Order
     public string? OrderId { get; set; }
     public Customer Customer { get; set; }
     public Set Set { get; set; }
+    public double TotalPrice { get; set; }
 }

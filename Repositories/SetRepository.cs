@@ -1,6 +1,5 @@
 namespace Eindopdracht.Repositories;
 
-//GET SETS WITH QUERY STRING ORDER BY PRICE
 public interface ISetRepository
 {
     Task<List<Set>> GetAllSets();
@@ -55,8 +54,16 @@ public class SetRepository : ISetRepository
     //ADD SET
     public async Task<Set> AddSet(Set newSet)
     {
-        await _context.SetCollection.InsertOneAsync(newSet);
-        return newSet;
+        try
+        {
+            await _context.SetCollection.InsertOneAsync(newSet);
+            return newSet;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 
     //UPDATE SET
@@ -66,6 +73,9 @@ public class SetRepository : ISetRepository
         {
             var filter = Builders<Set>.Filter.Eq("SetNumber", set.SetNumber);
             var update = Builders<Set>.Update.Set("Name", set.Name);
+            update = Builders<Set>.Update.Set("MinimalAge", set.MinimalAge);
+            update = Builders<Set>.Update.Set("Pieces", set.Pieces);
+            update = Builders<Set>.Update.Set("Price", set.Price);
             var result = await _context.SetCollection.UpdateOneAsync(filter, update);
             return await GetSetByNumber(set.SetNumber);
         }

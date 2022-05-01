@@ -33,8 +33,16 @@ public class ThemeRepository : IThemeRepository
     //ADD THEME
     public async Task<Theme> AddTheme(Theme newTheme)
     {
-        await _context.ThemeCollection.InsertOneAsync(newTheme);
-        return newTheme;
+        try
+        {
+            await _context.ThemeCollection.InsertOneAsync(newTheme);
+            return newTheme;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 
     //UPDATE THEME

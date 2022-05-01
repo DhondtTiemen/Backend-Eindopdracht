@@ -3,36 +3,62 @@ namespace Eindopdracht.GraphQL.Mutations;
 public class Mutation
 {
     //SETS
-    public async Task<AddSetPayload> AddSet([Service] ILegoService legoService, AddSetInput input)
+    public async Task<AddSetPayload> AddSet([Service] ILegoService legoService, AddSetInput input, [Service] IValidator<AddSetInput> validator)
     {
-        var newSet = new Set()
+        var validationResult = validator.Validate(input);
+        if (validationResult.IsValid)
         {
-            SetNumber = input.number,
-            Name = input.name,
-            MinimalAge = input.minimalAge,
-            Pieces = input.pieces,
-            Price = input.price,
-            Theme = input.Theme,
-        };
+            var newSet = new Set()
+            {
+                SetNumber = input.number,
+                Name = input.name,
+                MinimalAge = input.minimalAge,
+                Pieces = input.pieces,
+                Price = input.price,
+                Theme = input.Theme,
+            };
 
-        var created = await legoService.AddSet(newSet);
-        return new AddSetPayload(created);
+            var created = await legoService.AddSet(newSet);
+            return new AddSetPayload(created);
+        }
+        else
+        {
+            string message = string.Empty;
+            foreach (var error in validationResult.Errors)
+            {
+                message += error.ErrorMessage;
+            }
+            throw new Exception(message);
+        }
     }
 
-    public async Task<AddSetPayload> UpdateSet([Service] ILegoService legoService, AddSetInput input)
+    public async Task<AddSetPayload> UpdateSet([Service] ILegoService legoService, AddSetInput input, [Service] IValidator<AddSetInput> validator)
     {
-        var updateSet = new Set()
+        var validationResult = validator.Validate(input);
+        if (validationResult.IsValid)
         {
-            SetNumber = input.number,
-            Name = input.name,
-            MinimalAge = input.minimalAge,
-            Pieces = input.pieces,
-            Price = input.price,
-            Theme = input.Theme,
-        };
+            var updateSet = new Set()
+            {
+                SetNumber = input.number,
+                Name = input.name,
+                MinimalAge = input.minimalAge,
+                Pieces = input.pieces,
+                Price = input.price,
+                Theme = input.Theme,
+            };
 
-        var updated = await legoService.UpdateSet(updateSet);
-        return new AddSetPayload(updated);
+            var updated = await legoService.UpdateSet(updateSet);
+            return new AddSetPayload(updated);
+        }
+        else
+        {
+            string message = string.Empty;
+            foreach (var error in validationResult.Errors)
+            {
+                message += error.ErrorMessage;
+            }
+            throw new Exception(message);
+        }
     }
 
     public async Task<Set> DeleteSet([Service] ILegoService legoService, AddSetInput input)
@@ -41,28 +67,54 @@ public class Mutation
     }
 
     //THEMES
-    public async Task<AddThemePayload> AddTheme([Service] ILegoService legoService, AddThemeInput input)
+    public async Task<AddThemePayload> AddTheme([Service] ILegoService legoService, AddThemeInput input, [Service] IValidator<AddThemeInput> validator)
     {
-        var newTheme = new Theme()
+        var validationResult = validator.Validate(input);
+        if (validationResult.IsValid)
         {
-            ThemeId = input.themeId,
-            Name = input.name
-        };
+            var newTheme = new Theme()
+            {
+                ThemeId = input.themeId,
+                Name = input.name
+            };
 
-        var created = await legoService.AddTheme(newTheme);
-        return new AddThemePayload(created);
+            var created = await legoService.AddTheme(newTheme);
+            return new AddThemePayload(created);
+        }
+        else
+        {
+            string message = string.Empty;
+            foreach (var error in validationResult.Errors)
+            {
+                message += error.ErrorMessage;
+            }
+            throw new Exception(message);
+        }
     }
 
-    public async Task<AddThemePayload> UpdateTheme([Service] ILegoService legoService, AddThemeInput input)
+    public async Task<AddThemePayload> UpdateTheme([Service] ILegoService legoService, AddThemeInput input, [Service] IValidator<AddThemeInput> validator)
     {
-        var updateTheme = new Theme()
+        var validationResult = validator.Validate(input);
+        if (validationResult.IsValid)
         {
-            ThemeId = input.themeId,
-            Name = input.name
-        };
+            var updateTheme = new Theme()
+            {
+                ThemeId = input.themeId,
+                Name = input.name
+            };
 
-        var updated = await legoService.UpdateTheme(updateTheme);
-        return new AddThemePayload(updated);
+            var updated = await legoService.UpdateTheme(updateTheme);
+            return new AddThemePayload(updated);
+        }
+        else
+        {
+            string message = string.Empty;
+            foreach (var error in validationResult.Errors)
+            {
+                message += error.ErrorMessage;
+            }
+            throw new Exception(message);
+        }
     }
 
     public async Task<Theme> DeleteTheme([Service] ILegoService legoService, AddThemeInput input)
@@ -71,54 +123,111 @@ public class Mutation
     }
 
     //CUSTOMERS
-    public async Task<AddCustomerPayload> AddCustomer([Service] ILegoService legoService, AddCustomerInput input)
+    public async Task<AddCustomerPayload> AddCustomer([Service] ILegoService legoService, AddCustomerInput input, [Service] IValidator<AddCustomerInput> validator)
     {
-        var newCustomer = new Customer()
+        var validationResult = validator.Validate(input);
+        if (validationResult.IsValid)
         {
-            Name = input.Name,
-            Email = input.Email
-        };
+            var newCustomer = new Customer()
+            {
+                Name = input.Name,
+                Email = input.Email
+            };
 
-        var created = await legoService.AddCustomer(newCustomer);
-        return new AddCustomerPayload(created);
+            var created = await legoService.AddCustomer(newCustomer);
+            return new AddCustomerPayload(created);
+        }
+        else
+        {
+            string message = string.Empty;
+            foreach (var error in validationResult.Errors)
+            {
+                message += error.ErrorMessage;
+            }
+            throw new Exception(message);
+        }
     }
 
-    public async Task<AddCustomerPayload> UpdateCustomer([Service] ILegoService legoService, AddCustomerInput input)
+    public async Task<AddCustomerPayload> UpdateCustomer([Service] ILegoService legoService, AddCustomerInput input, [Service] IValidator<AddCustomerInput> validator)
     {
-        var updateCustomer = new Customer()
+        var validationResult = validator.Validate(input);
+        if (validationResult.IsValid)
         {
-            CustomerId = input.CustomerId,
-            Name = input.Name,
-            Email = input.Email
-        };
+            var updateCustomer = new Customer()
+            {
+                CustomerId = input.CustomerId,
+                Name = input.Name,
+                Email = input.Email
+            };
 
-        var updated = await legoService.UpdateCustomer(updateCustomer);
-        return new AddCustomerPayload(updated);
+            var updated = await legoService.UpdateCustomer(updateCustomer);
+            return new AddCustomerPayload(updated);
+        }
+        else
+        {
+            string message = string.Empty;
+            foreach (var error in validationResult.Errors)
+            {
+                message += error.ErrorMessage;
+            }
+            throw new Exception(message);
+        }
+    }
+
+    public async Task<Customer> DeleteCustomer([Service] ILegoService legoService, AddCustomerInput input)
+    {
+        return await legoService.DeleteCustomer(input.CustomerId);
     }
 
     //ORDERS
-    public async Task<AddOrderPayload> AddOrder([Service] ILegoService legoService, AddOrderInput input)
+    public async Task<AddOrderPayload> AddOrder([Service] ILegoService legoService, AddOrderInput input, [Service] IValidator<AddOrderInput> validator)
     {
-        var newOrder = new Order()
+        var validationResult = validator.Validate(input);
+        if (validationResult.IsValid)
         {
-            Customer = input.customer,
-            Set = input.set
-        };
+            var newOrder = new Order()
+            {
+                Customer = input.customer,
+                Set = input.set
+            };
 
-        var created = await legoService.AddOrder(newOrder);
-        return new AddOrderPayload(created);
+            var created = await legoService.AddOrder(newOrder);
+            return new AddOrderPayload(created);
+        }
+        else
+        {
+            string message = string.Empty;
+            foreach (var error in validationResult.Errors)
+            {
+                message += error.ErrorMessage;
+            }
+            throw new Exception(message);
+        }
     }
 
-    public async Task<AddOrderPayload> UpdateOrder([Service] ILegoService legoService, AddOrderInput input)
+    public async Task<AddOrderPayload> UpdateOrder([Service] ILegoService legoService, AddOrderInput input, [Service] IValidator<AddOrderInput> validator)
     {
-        var updateOrder = new Order()
+        var validationResult = validator.Validate(input);
+        if (validationResult.IsValid)
         {
-            OrderId = input.OrderId,
-            Customer = input.customer,
-            Set = input.set
-        };
+            var updateOrder = new Order()
+            {
+                OrderId = input.OrderId,
+                Customer = input.customer,
+                Set = input.set
+            };
 
-        var updated = await legoService.UpdateOrder(updateOrder);
-        return new AddOrderPayload(updated);
+            var updated = await legoService.UpdateOrder(updateOrder);
+            return new AddOrderPayload(updated);
+        }
+        else
+        {
+            string message = string.Empty;
+            foreach (var error in validationResult.Errors)
+            {
+                message += error.ErrorMessage;
+            }
+            throw new Exception(message);
+        }
     }
 }

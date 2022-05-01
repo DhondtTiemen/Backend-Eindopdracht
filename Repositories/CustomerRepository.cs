@@ -39,8 +39,16 @@ public class CustomerRepository : ICustomerRepository
     //ADD CUSTOMER
     public async Task<Customer> AddCustomer(Customer newCustomer)
     {
-        await _context.CustomerCollection.InsertOneAsync(newCustomer);
-        return newCustomer;
+        try
+        {
+            await _context.CustomerCollection.InsertOneAsync(newCustomer);
+            return newCustomer;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+            throw;
+        }
     }
 
     //UPDATE CUSTOMER
@@ -50,6 +58,7 @@ public class CustomerRepository : ICustomerRepository
         {
             var filter = Builders<Customer>.Filter.Eq("CustomerId", customer.CustomerId);
             var update = Builders<Customer>.Update.Set("Name", customer.Name);
+            update = Builders<Customer>.Update.Set("Email", customer.Email);
             var result = await _context.CustomerCollection.UpdateOneAsync(filter, update);
             return await GetCustomerById(customer.CustomerId);
         }
