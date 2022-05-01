@@ -9,6 +9,13 @@ global using MongoDB.Driver;
 global using FluentValidation;
 global using FluentValidation.AspNetCore;
 
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using Microsoft.AspNetCore.Authorization;
+
+global using Microsoft.OpenApi.Models;
+
 global using Eindopdracht.Models;
 global using Eindopdracht.Repositories;
 global using Eindopdracht.Services;

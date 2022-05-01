@@ -1,5 +1,12 @@
 version: '3.1'
 services:
+  # api:
+  #   build:
+  #     context: .
+  #   ports:
+  #     - 3000:3000
+  #   volumes:
+  #     - ./appsettings.Docker.json:/app/appsettings.json
   mongo:
     hostname: mongo
     image: mongo

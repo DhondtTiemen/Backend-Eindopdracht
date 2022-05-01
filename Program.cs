@@ -10,12 +10,7 @@ builder.Services.AddTransient<IThemeRepository, ThemeRepository>();
 builder.Services.AddTransient<ICustomerRepository, CustomerRepository>();
 builder.Services.AddTransient<IOrderRepository, OrderRepository>();
 builder.Services.AddTransient<ILegoService, LegoService>();
-
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Set>());
-builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Theme>());
+builder.Services.AddTransient<IAuthenticationService, AuthenticationService>();
 
 builder.Services
     .AddGraphQLServer()
@@ -23,20 +18,89 @@ builder.Services
     .ModifyRequestOptions(opt => opt.IncludeExceptionDetails = true)
     .AddMutationType<Mutation>();
 
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Set>());
+builder.Services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<Theme>());
+
+builder.Services.AddAuthentication("Bearer").AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new()
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = "https://localhost:3000",
+        ValidAudience = "lego_api_users",
+        IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes("PdSgVkYp3s6v9y$B&E)H@McQfThWmZq4"))
+    };
+});
+
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Lego API", Version = "v1.0.0" });
+
+    var securitySchema = new OpenApiSecurityScheme
+    {
+        Description = "JWT Authorization header using the Bearer scheme.",
+        Name = "Authorization",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        Reference = new OpenApiReference
+        {
+            Type = ReferenceType.SecurityScheme,
+            Id = "Bearer"
+        }
+    };
+
+    c.AddSecurityDefinition("Bearer", securitySchema);
+
+    var securityRequirement = new OpenApiSecurityRequirement
+    {
+        { securitySchema, new[] { "Bearer" } }
+    };
+
+    c.AddSecurityRequirement(securityRequirement);
+});
+
 var app = builder.Build();
 app.MapSwagger();
 app.UseSwaggerUI();
 app.MapGraphQL();
+// app.UseAuthentication();
+// app.UseAuthorization();
 
-//Belangrijk:
-//Token toevoegen + validator
-//Firebase toevoegen
+//AUTHENTICATION
+#region AUTHENTICATION ENDPOINT
+app.MapPost("/authenticate", async (IAuthenticationService authenticationService, AuthenticationRequestBody authenticationRequestBody) =>
+{
+    var user = authenticationService.ValidateUser(authenticationRequestBody.username, authenticationRequestBody.password);
+    if (user == null)
+    {
+        return Results.Unauthorized();
+    }
 
-//Alles nog eens controleren
+    var securityKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(builder.Configuration["AuthenticationSettings:SecretForKey"]));
 
-//Extra:
-//Eventueel mapper toevoegen labo02 (DTO)
-//Eventueel mailservice toevoegen
+    var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+    var claimsForToken = new List<Claim>();
+    claimsForToken.Add(new Claim("sub", "1"));
+    claimsForToken.Add(new Claim("given_name", user.name));
+
+    var jwtSecurityToken = new JwtSecurityToken(
+        "https://localhost:3000",
+        "lego_api_users",
+        claimsForToken,
+        DateTime.UtcNow,
+        DateTime.UtcNow.AddHours(1),
+        signingCredentials
+    );
+    var tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+    return Results.Ok(tokenToReturn);
+});
+#endregion
 
 //SETUP
 #region SETUP ENDPOINTS
@@ -104,12 +168,6 @@ app.MapPut("/api/sets", async (IValidator<Set> validator, ILegoService legoServi
     var errors = result.Errors.Select(e => new { errors = e.ErrorMessage });
     return Results.BadRequest(errors);
 });
-
-// app.MapPut("/api/sets/stock", async (ILegoService legoService, int setNumber, int stock) =>
-// {
-//     await legoService.UpdateSetStock(setNumber, stock);
-//     return Results.Created("", setNumber);
-// });
 
 app.MapDelete("/api/sets/{setNumber}", async (ILegoService legoService, int setNumber) =>
 {
@@ -278,8 +336,10 @@ app.MapDelete("/api/orders/{orderId}", async (ILegoService legoService, string o
 #endregion
 
 
-app.Run("http://localhost:3000");
+// app.Run("http://localhost:3000");
 
 //Testing
-// app.Run();
+app.Run();
+
+// app.Run("http://0.0.0.0:3000");
 public partial class Program { }

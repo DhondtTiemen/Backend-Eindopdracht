@@ -1,8 +1,19 @@
+POST http://localhost:3000/authenticate HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "tiemend",
+    "password": "secret"
+}
+
+###
+
 GET http://localhost:3000/api/setup HTTP/1.1
 
 ###
 
 GET http://localhost:3000/api/sets HTTP/1.1
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZ2l2ZW5fbmFtZSI6IkRob25kdCBUaWVtZW4iLCJuYmYiOjE2NTE0MjIzMjksImV4cCI6MTY1MTQyNTkyOSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6MzAwMCIsImF1ZCI6ImxlZ29fYXBpX3VzZXJzIn0.LzPdRffWdMYCibY99Mjim_hLtsMZ7G1zqpB44_Dt2Ls
 Content-Type: application/json
 
 ###
@@ -13,6 +24,7 @@ Content-Type: application/json
 ###
 
 GET http://localhost:3000/api/sets/21028?includeTheme=true HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxIiwiZ2l2ZW5fbmFtZSI6IkFydGh1ciIsIm5iZiI6MTY1MDI3OTIwOCwiZXhwIjoxNjUwMjgyODA4LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo1MjgxIiwiYXVkIjoiU2tpcGFzc19BcGlfVXNlcnMifQ.EFwXhizRXyNiM_uqf9oeWmYjJv8LKjch1Fl87nUrFYc
 Content-Type: application/json
 
 ###
@@ -111,7 +123,7 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/customers/id/62610746036eb17170e200cc HTTP/1.1
+GET http://localhost:3000/api/customers/id/626ecbc40a3c37201d3a8785 HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -135,14 +147,14 @@ PUT http://localhost:3000/api/customers HTTP/1.1
 Content-Type: application/json
 
 {
-    "customerId": "62610f96900e81c2e35cf2a8",
-    "name": "Aline Naert",
-    "email": "aline.naert@student.vives.be"
+    "customerId": "626ecfccc65b3f29dea8622e",
+    "name": "Alieneke Naert",
+    "email": "aline.paard@student.vives.be"
 }
 
 ###
 
-DELETE http://localhost:3000/api/customers/62610f96900e81c2e35cf2a8 HTTP/1.1
+DELETE http://localhost:3000/api/customers/626ecbc40a3c37201d3a8785 HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -152,12 +164,12 @@ Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/orders/id/6261106d900e81c2e35cf2aa HTTP/1.1
+GET http://localhost:3000/api/orders/id/626ed1f7f22353cc8343466e HTTP/1.1
 Content-Type: application/json
 
 ###
 
-GET http://localhost:3000/api/orders/customerId/62610746036eb17170e200cc HTTP/1.1
+GET http://localhost:3000/api/orders/customerId/626ed1f7f22353cc8343466e HTTP/1.1
 Content-Type: application/json
 
 ###
@@ -172,7 +184,7 @@ Content-Type: application/json
 
 {
     "Customer": {
-        "customerId": "62610746036eb17170e200cc",
+        "customerId": "626ed1f7f22353cc8343466e",
         "name": "Tiemen Dhondt",
         "email": "tiemen.dhondt2@student.howest.be"
     },
